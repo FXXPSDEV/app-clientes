@@ -7,12 +7,12 @@ public class preferences {
 
     private Context context;
     private SharedPreferences preferences;
-    private String name_File = "ProjetoFirebase.Preferencias";
+    private String name_File = "ProjectFirebase.preferences";
     private int MODE = 0;
     private SharedPreferences.Editor editor;
 
-    private final String CHAVE_IDENTIFICADOR = "identificadorUsuarioLogado";
-    private final String CHAVE_NOME = "NomeUsuarioLogado";
+    private final String ID_KEY = "idUserLogged";
+    private final String NAME_KEY = "nameUserLogged";
 
     public preferences(Context context) {
         this.context = context;
@@ -21,18 +21,18 @@ public class preferences {
         editor = preferences.edit();
     }
 
-    public void SaveUserPreferences(String identificadorUsuario, String nomeUsuario){
-        editor.putString(CHAVE_IDENTIFICADOR, identificadorUsuario);
-        editor.putString(CHAVE_NOME, nomeUsuario);
+    public void SaveUserPreferences(String userId, String userName){
+        editor.putString(ID_KEY, userId);
+        editor.putString(NAME_KEY, userName);
         editor.commit();
     }
 
-    public String getIdentificador(){
-        return preferences.getString(CHAVE_IDENTIFICADOR,null);
+    public String getIdentifier(){
+        return preferences.getString(ID_KEY,null);
     }
 
-    public String getNome(){
-        return preferences.getString(CHAVE_NOME,null);
+    public String getName(){
+        return preferences.getString(NAME_KEY,null);
     }
 
 }

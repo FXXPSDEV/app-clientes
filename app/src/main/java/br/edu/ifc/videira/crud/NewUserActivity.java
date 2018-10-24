@@ -25,7 +25,7 @@ public class NewUserActivity extends AppCompatActivity {
     private UserViewModel mUserViewModel;
 
     //Mudeando aq//
-    private FirebaseAuth autenticacao;
+    private FirebaseAuth auth;
     private User user;
 
 
@@ -61,9 +61,9 @@ public class NewUserActivity extends AppCompatActivity {
         });
     }
     //aq tbm
-    private void validarLogin(){
-        autenticacao = configFirebase.getFirebaseAutenticacao();
-        autenticacao.signInWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void loginValidate(){
+        auth = configFirebase.getFirebaseAuth();
+        auth.signInWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 

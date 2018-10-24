@@ -20,12 +20,14 @@ import br.edu.ifc.videira.crud.dao.configFirebase;
 import br.edu.ifc.videira.crud.entities.User;
 import br.edu.ifc.videira.crud.view_models.UserViewModel;
 
+import static android.app.Activity.RESULT_CANCELED;
+
 public class LoginActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
     private UserViewModel mUserViewModel;
 
     //Mudeando aq//
-    private FirebaseAuth autenticacao;
+    private FirebaseAuth auth;
     private User user;
     //
 
@@ -50,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     //aq
                     user = new User(email,password);
 
-                    validarLogin();
+                    loginValidate();
 
                 }
                 finish();
@@ -58,9 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void validarLogin(){
-        autenticacao = configFirebase.getFirebaseAutenticacao();
-        autenticacao.signInWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void loginValidate(){
+        auth = configFirebase.getFirebaseAuth();
+        auth.signInWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
