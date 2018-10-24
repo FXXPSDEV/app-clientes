@@ -34,12 +34,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_user);
+        setContentView(R.layout.activity_login);
 
-        final TextView txtEmail = findViewById(R.id.editTextUserEmail);
-        final TextView txtPasswrod = findViewById(R.id.editTextUserPassword);
-
-        final Button button = findViewById(R.id.btnSaveUser);
+        final TextView txtEmail = findViewById(R.id.TextUserEmail);
+        final TextView txtPasswrod = findViewById(R.id.TextUserPassword);
+        final Button buttonC = findViewById(R.id.btnNewUser);
+        final Button button = findViewById(R.id.btnLogin);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
@@ -55,7 +55,12 @@ public class LoginActivity extends AppCompatActivity {
                     loginValidate();
 
                 }
-                finish();
+            }
+        });
+        buttonC.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -68,11 +73,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()){
                     Toast.makeText(LoginActivity.this,"Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                    finish();
                 }else{
                     Toast.makeText(LoginActivity.this,"Login incorreto!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
 }
 

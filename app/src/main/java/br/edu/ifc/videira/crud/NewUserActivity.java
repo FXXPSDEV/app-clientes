@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,9 +17,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 
 import br.edu.ifc.videira.crud.dao.configFirebase;
 import br.edu.ifc.videira.crud.entities.User;
+import br.edu.ifc.videira.crud.helper.Base64Custom;
+import br.edu.ifc.videira.crud.helper.preferences;
 import br.edu.ifc.videira.crud.view_models.UserViewModel;
 
 public class NewUserActivity extends AppCompatActivity {
@@ -34,45 +43,79 @@ public class NewUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
 
-        final TextView txtEmail = findViewById(R.id.editTextUserEmail);
-        final TextView txtPasswrod = findViewById(R.id.editTextUserPassword);
-        final TextView txtName = findViewById(R.id.editTextName);
-        final TextView txtTel = findViewById(R.id.editTextPhone);
-
+        final EditText txtEmail = findViewById(R.id.editTextUserEmail);
+        final EditText txtPasswrod = findViewById(R.id.editTextUserPassword);
+        final EditText txtName = findViewById(R.id.editTextName);
+        final EditText txtTel = findViewById(R.id.editTextPhone);
 
         final Button button = findViewById(R.id.btnSaveUser);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(txtEmail.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    String email = txtEmail.getText().toString();
-                    String password = txtPasswrod.getText().toString();
-                    String name = txtName.getText().toString();
-                    String phone = txtTel.getText().toString();
+                    user = new User(txtEmail.getText().toString(), txtPasswrod.getText().toString(), txtName.getText().toString(), txtTel.getText().toString());
+                    /*user.setEmail(txtEmail.getText().toString());
+                    user.setPassword(txtPasswrod.getText().toString());
+                    user.setName(txtName.getText().toString());
+                    user.setPhone(txtTel.getText().toString());*/
 
-                    //aq
-                    user = new User(email, password, name, phone);
-
+                    registerUser();
+                    finish();
                 }
-                finish();
             }
         });
     }
     //aq tbm
-    private void loginValidate(){
+    private void registerUser() {
         auth = configFirebase.getFirebaseAuth();
-        auth.signInWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(
+                user.getEmail(),
+                user.getPassword()
+        ).addOnCompleteListener(NewUserActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
                 if (task.isSuccessful()){
-                    Toast.makeText(NewUserActivity.this,"Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(NewUserActivity.this,"Login incorreto!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewUserActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                    String idUser = Base64Custom.codificadorBase64(user.getEmail());
+                    FirebaseUser userFirebase = task.getResult().getUser();
+                    user.setId(idUser);
+
+                    user.Save();
+
+                    preferences preferences = new preferences(NewUserActivity.this);
+                    preferences.SaveUserPreferences(idUser, user.getName());
+
+                    OpenloginUser();
+                }else {
+                    String error = "";
+
+                    try {
+                        throw task.getException();
+                    }catch (FirebaseAuthWeakPasswordException e){
+                        error = "Digite uma senha mais forte(8 caracters)";
+                    }catch (FirebaseAuthInvalidCredentialsException e){
+                        error = "E-mail inválido";
+                    }catch (FirebaseAuthUserCollisionException e){
+                        error = "E-mail já cadastrado";
+                    }catch (Exception e){
+                        error = "Erro ao efetuar cadastro";
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(NewUserActivity.this, "Erro: " + error, Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
+    }
+
+    public void OpenloginUser(){
+        Intent intent = new Intent(NewUserActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

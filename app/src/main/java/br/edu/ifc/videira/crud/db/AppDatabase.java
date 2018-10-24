@@ -8,7 +8,7 @@ import android.content.Context;
 import br.edu.ifc.videira.crud.dao.UserDao;
 import br.edu.ifc.videira.crud.entities.User;
 
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;

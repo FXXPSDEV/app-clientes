@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity
 
     private UserViewModel mUserViewModel;
     public static final int NEW_USER_ACTIVITY_REQUEST_CODE = 1;
+    public static final int LOGIN_ACTIVITY_REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,10 +104,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_new_user) {
-            Intent i = new Intent(this, NewUserActivity.class);
-            startActivityForResult(i, NEW_USER_ACTIVITY_REQUEST_CODE);
-        } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_user) {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivityForResult(i, LOGIN_ACTIVITY_REQUEST_CODE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
