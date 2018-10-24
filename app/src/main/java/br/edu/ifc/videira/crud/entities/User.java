@@ -18,6 +18,12 @@ public class User {
     @ColumnInfo(name = "id")
     public int id;
 
+    @ColumnInfo(name = "name")
+    private String name;
+
+    @ColumnInfo(name = "phone")
+    private String phone;
+
     @ColumnInfo(name = "email")
     private String email;
 
@@ -27,6 +33,12 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+    public User(String email, String password, String name, String phone) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
     }
 
     @NonNull
@@ -41,4 +53,13 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
 }

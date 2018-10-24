@@ -5,31 +5,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context="br.edu.ifc.videira.crud.NewUserActivity">
 
 
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal|center"
+        android:hint="Nome"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:paddingTop="50dp"
+        android:id="@+id/editTextName"/>
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal|center"
+        android:hint="Telefone"
+        android:inputType="phone"
+        android:padding="5dp" />
+
+    <EditText
         android:id="@+id/editTextUserEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="example@example.com"
+        android:layout_margin="10dp"
         android:ems="10"
+        android:gravity="center_vertical|center_horizontal|center"
+        android:hint="Email"
         android:inputType="textEmailAddress"
-        android:layout_margin="5dp"/>
+        android:padding="5dp" />
+
 
     <EditText
         android:id="@+id/editTextUserPassword"
-        android:hint="********"
-        android:layout_width="match_parent"
+        android:layout_width="354dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="fill_vertical|fill_horizontal"
+        android:layout_margin="10dp"
         android:ems="10"
-        android:inputType="numberPassword" />
+        android:gravity="center_vertical|center_horizontal|center"
+        android:hint="Senha"
+        android:inputType="textPassword"
+        android:padding="5dp" />
 
     <Button
         android:id="@+id/btnSaveUser"
-        android:layout_width="match_parent"
+        android:layout_width="185dp"
         android:layout_height="wrap_content"
-        android:text="Salvar Usuário" />
+        android:layout_gravity="center_horizontal|center"
+        android:layout_margin="15dp"
+        android:baselineAligned="false"
+        android:padding="5dp"
+        android:text="Efetuar Cadastro" />
 
 </LinearLayout>

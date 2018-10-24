@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+   /* public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -126,5 +126,5 @@ public class MainActivity extends AppCompatActivity
                     "Não foi possível salvar.",
                     Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
 }
