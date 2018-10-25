@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import br.edu.ifc.videira.crud.dao.configFirebase;
 import br.edu.ifc.videira.crud.entities.User;
 import br.edu.ifc.videira.crud.helper.Base64Custom;
+import br.edu.ifc.videira.crud.helper.PreferencesAndroid;
 import br.edu.ifc.videira.crud.helper.preferences;
 import br.edu.ifc.videira.crud.view_models.UserViewModel;
 
@@ -36,6 +37,7 @@ public class NewUserActivity extends AppCompatActivity {
     //Mudeando aq//
     private FirebaseAuth auth;
     private User user;
+    private int a;
 
 
     @Override
@@ -57,13 +59,9 @@ public class NewUserActivity extends AppCompatActivity {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
                     user = new User(txtEmail.getText().toString(), txtPasswrod.getText().toString(), txtName.getText().toString(), txtTel.getText().toString());
-                    /*user.setEmail(txtEmail.getText().toString());
-                    user.setPassword(txtPasswrod.getText().toString());
-                    user.setName(txtName.getText().toString());
-                    user.setPhone(txtTel.getText().toString());*/
 
                     registerUser();
-                    finish();
+                    //finish();
                 }
             }
         });
@@ -77,17 +75,19 @@ public class NewUserActivity extends AppCompatActivity {
         ).addOnCompleteListener(NewUserActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+
+
+                if (task.isSuccessful()) {
                     Toast.makeText(NewUserActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                    String idUser = Base64Custom.codificadorBase64(user.getEmail());
-                    FirebaseUser userFirebase = task.getResult().getUser();
-                    user.setId(idUser);
+                    String idenficadorUsuario = Base64Custom.codificarBase64(user.getEmail());
+                    FirebaseUser usuarioFirebase = task.getResult().getUser();
+                    user.setId(idenficadorUsuario);
 
                     user.Save();
 
-                    preferences preferences = new preferences(NewUserActivity.this);
-                    preferences.SaveUserPreferences(idUser, user.getName());
+                    PreferencesAndroid preferenciasAndroid = new PreferencesAndroid(NewUserActivity.this);
+                    preferenciasAndroid.SaveUserPreferences(idenficadorUsuario, user.getName());
 
                     OpenloginUser();
                 }else {
@@ -105,8 +105,8 @@ public class NewUserActivity extends AppCompatActivity {
                         error = "Erro ao efetuar cadastro";
                         e.printStackTrace();
                     }
+                    Toast.makeText(NewUserActivity.this, "Erro: "+ error + "AD: "+ a, Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(NewUserActivity.this, "Erro: " + error, Toast.LENGTH_SHORT).show();
 
                 }
             }

@@ -53,8 +53,8 @@ public class User {
     }
 
     public void Save() {
-        DatabaseReference referenceFirebase = configFirebase.getFirebase();
-        referenceFirebase.child("Users").child(String.valueOf(getId())).setValue(this);
+        DatabaseReference referenciaFirebase = configFirebase.getfireBase();
+        referenciaFirebase.child("usuario").child(String.valueOf(getId())).setValue(this);
     }
     @Exclude
     public Map<String, Object> toMap(){
